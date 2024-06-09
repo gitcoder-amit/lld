@@ -1,0 +1,98 @@
+I have figured out these classes and attributes
+1 Game--> board, list_of_players, dice
+2 Board --> list of cells
+3 Cell --> Jump
+4 Jump --> start, end
+5 Dice --> dicecount
+6 Player
+
+how to create schema design for this
+
+Step-by-Step Process
+Identify Entities (Tables):
+
+Game
+Board
+Cell
+Jump
+Dice
+Player
+Determine Attributes:
+
+Game Table:
+
+game_id (Primary Key)
+board_id (Foreign Key referencing Board)
+dice_id (Foreign Key referencing Dice)
+Board Table:
+
+board_id (Primary Key)
+Cell Table:
+
+cell_id (Primary Key)
+board_id (Foreign Key referencing Board)
+jump_id (Foreign Key referencing Jump, can be NULL if no jump)
+Jump Table:
+
+jump_id (Primary Key)
+start (start position of the jump)
+end (end position of the jump)
+Dice Table:
+
+dice_id (Primary Key)
+dice_count (number of dice)
+Player Table:
+
+player_id (Primary Key)
+game_id (Foreign Key referencing Game)
+player_name
+current_position
+Define Primary Keys:
+
+Each table will have a primary key (e.g., game_id, board_id, cell_id, jump_id, dice_id, player_id).
+Establish Relationships:
+
+One-to-one relationship between Game and Board (a game has one board).
+One-to-one relationship between Game and Dice (a game has one dice).
+One-to-many relationship between Game and Player (a game can have multiple players).
+One-to-many relationship between Board and Cell (a board can have multiple cells).
+One-to-one (optional) relationship between Cell and Jump (a cell can have a jump).
+Normalization:
+
+Ensure the database schema is normalized to reduce redundancy and maintain data integrity.
+
+
+
+Game Table:
+
+game_id: Unique identifier for each game.
+board_id: Foreign key linking to the Board table.
+dice_id: Foreign key linking to the Dice table.
+Board Table:
+
+board_id: Unique identifier for each board.
+Cell Table:
+
+cell_id: Unique identifier for each cell.
+board_id: Foreign key linking to the Board table.
+jump_id: Foreign key linking to the Jump table (can be NULL if the cell doesn't have a jump).
+Jump Table:
+
+jump_id: Unique identifier for each jump.
+start: Starting position of the jump.
+end: Ending position of the jump.
+Dice Table:
+
+dice_id: Unique identifier for each dice.
+dice_count: Number of dice.
+Player Table:
+
+player_id: Unique identifier for each player.
+game_id: Foreign key linking to the Game table.
+player_name: Name of the player.
+current_position: Current position of the player on the board.
+Further Considerations:
+Indexes: Add indexes on frequently queried columns to improve performance.
+Constraints: Add necessary constraints like UNIQUE, CHECK, etc., to maintain data integrity.
+Relationships: Ensure all relationships (foreign keys) are correctly established to maintain referential integrity.
+
