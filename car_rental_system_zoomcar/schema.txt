@@ -1,0 +1,124 @@
+Class Diagram
+1 RentalSystem --> list of stores, list of users
+2 User --> name, id, address, driving_license
+3 Store --> name, location, vehicle_inventory, reservations
+4 Location --> city, state, pincode, country, address
+5 Vehicle_Inventroy --> list of vehicles
+6 Reservation --> id, user, vehicle, booking_date, date_booked_from, date_booked_to, from_time, to_time, pickup_location, drop_location, reservation_type, reservation_status
+7 Vehicle --> id, vehicle_number, vehicle_type, company_name, model_name, km_driven, average, cc, daily_rental_cost, hourly_rental_cost, no_of_seat, status
+8. VehicleType --> Car, Bike
+9. Car --> child class of vehicle
+10 Bike --> child class of vehicle
+11 Status --> Active, Inactive
+12 ReservationStatus --> scheduled, in_progress, completed, cancelled
+13 ReservationType--> Hourly, Daily
+
+
+
+  Vehilce 
+Car(child class of vehilce)
+Bike (CHild class of vehicle)
+Story --> location , inventory
+Inventory, -> llist of vehicles
+
+How to do schema design
+
+
+Step-by-Step Process:
+Identify Entities (Tables):
+
+Vehicle
+Car (subclass of Vehicle)
+Bike (subclass of Vehicle)
+Store
+Inventory
+Determine Attributes:
+
+Vehicle Table:
+
+vehicle_id (Primary Key)
+vehicle_number
+other vehicle attributes (company_name, model_name, km_driven, average, cc, daily_rental_cost, hourly_rental_cost, no_of_seat, status, etc.)
+Car Table:
+
+vehicle_id (Primary Key, Foreign Key referencing Vehicle)
+car-specific attributes
+Bike Table:
+
+vehicle_id (Primary Key, Foreign Key referencing Vehicle)
+bike-specific attributes
+Store Table:
+
+store_id (Primary Key)
+location_id (Foreign Key referencing Location)
+other store attributes (name, etc.)
+Inventory Table:
+
+inventory_id (Primary Key)
+store_id (Foreign Key referencing Store)
+vehicle_id (Foreign Key referencing Vehicle)
+Define Primary Keys:
+
+Each table will have a primary key (e.g., vehicle_id, store_id, inventory_id).
+Establish Relationships:
+
+One-to-many relationship between Store and Inventory.
+Many-to-one relationship between Vehicle and Inventory.
+Car and Bike are subclasses of Vehicle, so they will share the same primary key as Vehicle.
+Normalization:
+
+Ensure the schema is normalized to reduce redundancy and maintain data integrity.
+Example SQL Schema:
+sql
+Copy code
+-- Vehicle Table
+CREATE TABLE Vehicle (
+    vehicle_id INT PRIMARY KEY,
+    vehicle_number VARCHAR(255) UNIQUE NOT NULL,
+    company_name VARCHAR(255),
+    model_name VARCHAR(255),
+    km_driven INT,
+    average FLOAT,
+    cc INT,
+    daily_rental_cost FLOAT,
+    hourly_rental_cost FLOAT,
+    no_of_seat INT,
+    status VARCHAR(50)
+);
+
+-- Car Table
+CREATE TABLE Car (
+    vehicle_id INT PRIMARY KEY,
+    FOREIGN KEY (vehicle_id) REFERENCES Vehicle(vehicle_id),
+    -- Add car-specific attributes here
+);
+
+-- Bike Table
+CREATE TABLE Bike (
+    vehicle_id INT PRIMARY KEY,
+    FOREIGN KEY (vehicle_id) REFERENCES Vehicle(vehicle_id),
+    -- Add bike-specific attributes here
+);
+
+-- Store Table
+CREATE TABLE Store (
+    store_id INT PRIMARY KEY,
+    location_id INT,
+    name VARCHAR(255),
+    -- Add other store attributes here
+    FOREIGN KEY (location_id) REFERENCES Location(location_id)
+);
+
+-- Inventory Table
+CREATE TABLE Inventory (
+    inventory_id INT PRIMARY KEY,
+    store_id INT,
+    vehicle_id INT,
+    FOREIGN KEY (store_id) REFERENCES Store(store_id),
+    FOREIGN KEY (vehicle_id) REFERENCES Vehicle(vehicle_id)
+);
+Explanation:
+Vehicle Table: Contains general information about vehicles. Each vehicle has a unique identifier (vehicle_id), and it includes attributes common to all vehicles.
+Car Table: Contains additional attributes specific to cars. It shares the primary
+
+
